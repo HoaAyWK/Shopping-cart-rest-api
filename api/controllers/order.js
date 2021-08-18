@@ -3,7 +3,7 @@ const Product = require('../models/product');
 
 module.exports.getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find();
+        const orders = await Order.find().populate('product', 'name');
         const response = {
             count: orders.length,
             orders: orders.map(order => {
@@ -29,7 +29,7 @@ module.exports.getAllOrders = async (req, res) => {
 module.exports.getAOrder = async (req, res) => {
     const id = req.params.orderId;
     try {
-        const order = await Order.findById(id);
+        const order = await Order.findById(id).populate('product', 'name');
         if(!order) return res.status(404).json({message: 'Order not found'});
         res.status(200).json({
             _id: order._id,
@@ -50,6 +50,7 @@ module.exports.getAOrder = async (req, res) => {
 module.exports.createNewOrder = async (req, res) => {
     try {
         const product = await Product.findById(req.body.product);
+        console.log(product);
         if (!product) return res.status(404).json({message: 'Product not found'});
         const order = new Order({
             product: req.body.product,
