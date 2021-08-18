@@ -5,6 +5,7 @@ const morgan = require('morgan');
 
 const productRoute = require('./api/routes/product');
 const orderRoute = require('./api/routes/order');
+const userRoute = require('./api/routes/user');
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 
 app.use('/products', productRoute);
 app.use('/orders', orderRoute);
+app.use('/users', userRoute);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
