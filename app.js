@@ -7,6 +7,7 @@ const productRoute = require('./api/routes/product');
 const orderRoute = require('./api/routes/order');
 
 const app = express();
+
 try {
 mongoose.connect(process.env.MONGO_ATLAS_URL, {
     useNewUrlParser: true,
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'));
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');

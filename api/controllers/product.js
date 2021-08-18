@@ -11,6 +11,7 @@ module.exports.getAllProducts = (req, res) => {
                     name: product.name,
                     description: product.description,
                     price: product.price,
+                    productImage: product.productImage,
                     request: {
                         type: 'GET',
                         url: 'http://localhost:3001/products/' + product._id
@@ -34,6 +35,7 @@ module.exports.getAProduct = (req, res) => {
                 name: product.name,
                 description: product.description,
                 price: product.price,
+                productImage: product.productImage,
                 request: {
                     type: 'GET',
                     url: 'http://localhost:3001/products'
@@ -48,7 +50,8 @@ module.exports.createNewProduct = (req, res) => {
     const product = new Product({
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price
+        price: req.body.price,
+        productImage: req.file.path
     });
     product
     .save()
@@ -60,6 +63,7 @@ module.exports.createNewProduct = (req, res) => {
                 name: result.name,
                 description: result.description,
                 price: result.price,
+                productImage: product.productImage,
                 request: {
                     type: 'GET',
                     url: 'http://localhost:3001/products/' + result._id
@@ -75,7 +79,6 @@ module.exports.updateProduct = async (req, res) => {
     for (const ops of req.body) {
         updateOps[ops.propName] = ops.value;
     }
-    console.log(updateOps);
     try {
         const result = await Product.updateOne({ _id: id }, updateOps);
         if (result.n > 0) {
