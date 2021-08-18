@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan');
 
 const productRoute = require('./api/routes/product');
+const orderRoute = require('./api/routes/order');
 
 const app = express();
 try {
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/products', productRoute);
+app.use('/orders', orderRoute);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
